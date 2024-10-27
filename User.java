@@ -16,6 +16,11 @@ public class User {
         return username;
     }
 
+    // Method to verify if the given password matches the user's password
+    public boolean authenticate(String password) {
+        return this.password.equals(password);
+    }
+
     public void addBooking(Booking booking) {
         bookingHistory.add(booking);
     }
