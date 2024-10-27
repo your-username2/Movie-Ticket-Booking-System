@@ -29,7 +29,7 @@ public class Main {
 
         // Step 4: Attempt another booking, including a seat already booked
         List<Seat> seatsToBook2 = new ArrayList<>();
-        seatsToBook2.add(showtime1.getAvailableSeats().get(0)); // Seat 1 - Already booked
+        seatsToBook2.add(showtime1.getAvailableSeats().get(0)); // Seat 1 - Should be unavailable
         seatsToBook2.add(showtime1.getAvailableSeats().get(2)); // Seat 3
 
         Booking booking2 = new Booking("JaneDoe", showtime1, seatsToBook2);

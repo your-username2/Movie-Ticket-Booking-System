@@ -14,23 +14,23 @@ public class Booking {
     public void confirmBooking() {
         boolean allSeatsAvailable = true;
 
-        // Check if all seats are available
+        // Check if all seats are available before booking
         for (Seat seat : seats) {
             if (seat.isBooked()) {
-                System.out.println("Seat " + seat.getSeatNumber() + " is already booked.");
+                System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
                 allSeatsAvailable = false;
                 break;
             }
         }
 
-        // Reserve seats if all are available
+        // Reserve seats only if all are available
         if (allSeatsAvailable) {
             for (Seat seat : seats) {
                 seat.reserve();
             }
             System.out.println("Booking confirmed for user " + userName);
         } else {
-            System.out.println("Booking failed. Please select available seats.");
+            System.out.println("Booking failed. Please select different seats.");
         }
     }
 
