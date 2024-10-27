@@ -1,9 +1,10 @@
 import java.util.List;
 
 public class Booking {
-    private User user; // Added reference to User
+    private User user;
     private Showtime showtime;
     private List<Seat> seats;
+    private boolean isCanceled = false; // New field to track cancellation
 
     public Booking(User user, Showtime showtime, List<Seat> seats) {
         this.user = user;
@@ -18,7 +19,6 @@ public class Booking {
     public void confirmBooking() {
         boolean allSeatsAvailable = true;
 
-        // Check if all seats are available before booking
         for (Seat seat : seats) {
             if (seat.isBooked()) {
                 System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
@@ -27,13 +27,13 @@ public class Booking {
             }
         }
 
-        // Reserve seats only if all are available
         if (allSeatsAvailable) {
             for (Seat seat : seats) {
                 seat.reserve();
             }
             System.out.println("Booking confirmed for user " + user.getUsername());
-            user.addBooking(this); // Add booking to user's history
+            user.addBooking(this);
+            isCanceled = false; // Ensure it's marked as active when confirmed
         } else {
             System.out.println("Booking failed. Please select different seats.");
         }
@@ -44,5 +44,10 @@ public class Booking {
             seat.release();
         }
         System.out.println("Booking cancelled for user " + user.getUsername());
+        isCanceled = true; // Mark as canceled
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
     }
 }

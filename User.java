@@ -16,10 +16,6 @@ public class User {
         return username;
     }
 
-    public boolean authenticate(String password) {
-        return this.password.equals(password);
-    }
-
     public void addBooking(Booking booking) {
         bookingHistory.add(booking);
     }
@@ -30,8 +26,9 @@ public class User {
         } else {
             System.out.println(username + "'s Booking History:");
             for (Booking booking : bookingHistory) {
+                String status = booking.isCanceled() ? "(Canceled)" : "(Active)";
                 System.out.println("Movie: " + booking.getShowtime().getMovie().getTitle() +
-                        ", Showtime: " + booking.getShowtime().getTime());
+                        ", Showtime: " + booking.getShowtime().getTime() + " " + status);
             }
         }
     }
