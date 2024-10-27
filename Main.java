@@ -22,19 +22,22 @@ public class Main {
         seatsToBook.add(showtime1.getAvailableSeats().get(1)); // Seat 2
 
         Booking booking1 = new Booking(user1, showtime1, seatsToBook);
-        booking1.confirmBooking(); // Should confirm booking
 
-        // Step 5: Check the User's booking history
+        // Step 5: Create a Payment and confirm the booking
+        Payment payment = new CreditCardPayment(20.00, "1234-5678-9012-3456", "John Doe");
+        booking1.confirmBooking(payment); // Confirm booking with payment
+
+        // Step 6: Check the User's booking history
         user1.viewBookingHistory();
 
-        // Step 6: Cancel the booking and check seats again
+        // Step 7: Cancel the booking and check seats again
         booking1.cancelBooking();
         System.out.println("Available Seats After Cancelling Booking:");
         for (Seat seat : showtime1.getAvailableSeats()) {
             System.out.println("Seat " + seat.getSeatNumber() + " (Available)");
         }
 
-        // Step 7: Check the User's booking history after cancellation
+        // Step 8: Check the User's booking history after cancellation
         user1.viewBookingHistory();
     }
 }

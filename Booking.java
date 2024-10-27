@@ -4,7 +4,8 @@ public class Booking {
     private User user;
     private Showtime showtime;
     private List<Seat> seats;
-    private boolean isCanceled = false; // New field to track cancellation
+    private boolean isCanceled = false;
+    private Payment payment; // Add payment field
 
     public Booking(User user, Showtime showtime, List<Seat> seats) {
         this.user = user;
@@ -16,9 +17,10 @@ public class Booking {
         return showtime;
     }
 
-    public void confirmBooking() {
+    public void confirmBooking(Payment payment) {
         boolean allSeatsAvailable = true;
 
+        // Check if all seats are available before booking
         for (Seat seat : seats) {
             if (seat.isBooked()) {
                 System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
@@ -27,13 +29,22 @@ public class Booking {
             }
         }
 
+        // Process the payment before confirming the booking
         if (allSeatsAvailable) {
-            for (Seat seat : seats) {
-                seat.reserve();
+            boolean paymentSuccess = payment.processPayment();
+            if (paymentSuccess) {
+                // Reserve seats only if the payment is successful
+                for (Seat seat : seats) {
+                    seat.reserve();
+                }
+                this.payment = payment; // Store payment information
+                System.out.println("Booking confirmed for user " + user.getUsername());
+                user.addBooking(this);
+                isCanceled = false;
+                payment.generateReceipt(); // Generate receipt after successful booking
+            } else {
+                System.out.println("Payment failed. Booking could not be completed.");
             }
-            System.out.println("Booking confirmed for user " + user.getUsername());
-            user.addBooking(this);
-            isCanceled = false; // Ensure it's marked as active when confirmed
         } else {
             System.out.println("Booking failed. Please select different seats.");
         }
@@ -44,7 +55,7 @@ public class Booking {
             seat.release();
         }
         System.out.println("Booking cancelled for user " + user.getUsername());
-        isCanceled = true; // Mark as canceled
+        isCanceled = true;
     }
 
     public boolean isCanceled() {
