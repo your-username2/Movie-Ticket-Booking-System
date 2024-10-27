@@ -8,11 +8,12 @@ public class UserManager {
         this.users = new ArrayList<>();
     }
 
-    // New method to directly add users (e.g., default admin)
+    // Method to add a user directly (e.g., for default Admin)
     public void addUserDirectly(User user) {
         users.add(user);
     }
 
+    // Register user method (includes logic to differentiate user roles)
     public boolean registerUser(String username, String password, String role) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -26,6 +27,11 @@ public class UserManager {
         users.add(newUser);
         System.out.println("User registered successfully: " + username + " (" + role + ")");
         return true;
+    }
+
+    // Getter method to access all users
+    public List<User> getUsers() {
+        return users;
     }
 
     // Ensure only an Admin can add another Admin using this method

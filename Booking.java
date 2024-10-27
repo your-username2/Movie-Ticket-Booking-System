@@ -38,6 +38,8 @@ public class Booking {
                     seat.reserve();
                 }
                 this.payment = payment; // Store payment information
+                // Track revenue
+                showtime.addRevenue(payment.getAmount());
                 System.out.println("Booking confirmed for user " + user.getUsername());
                 user.addBooking(this);
                 isCanceled = false;

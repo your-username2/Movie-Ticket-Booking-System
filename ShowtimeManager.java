@@ -15,6 +15,11 @@ public class ShowtimeManager {
         System.out.println("Showtime added successfully for " + movie.getTitle() + " at " + time);
     }
 
+    // Getter method to access all showtimes
+    public List<Showtime> getShowtimes() {
+        return showtimes;
+    }
+
     // Update an existing showtime
     public void updateShowtime(int index, String time, int seats) {
         if (index >= 0 && index < showtimes.size()) {

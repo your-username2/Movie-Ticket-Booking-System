@@ -215,7 +215,8 @@ public class Main {
             System.out.println("1. Register a New Admin");
             System.out.println("2. Manage Movies");
             System.out.println("3. Manage Showtimes");
-            System.out.println("4. Logout");
+            System.out.println("4. View Analytics Dashboard");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
             int adminChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -232,15 +233,15 @@ public class Main {
                 case 2:
                     adminManager.manageMovies(scanner);
                     break;
-
                 case 3:
                     adminManager.manageShowtimes(scanner);
                     break;
-
                 case 4:
+                    adminManager.displayAnalytics(userManager);
+                    break;
+                case 5:
                     System.out.println("Logging out...");
                     return;
-
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
