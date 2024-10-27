@@ -39,6 +39,50 @@ public class MovieManager {
         }
     }
 
+    public void searchMoviesByGenre(String genre) {
+        System.out.println("Movies in genre: " + genre);
+        boolean found = false;
+        for (Movie movie : movies) {
+            if (movie.getGenre().equalsIgnoreCase(genre)) {
+                System.out.println(movie.getTitle() + " (" + movie.getDuration() + " mins, Rating: " + movie.getRating() + ")");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No movies found for genre: " + genre);
+        }
+    }
+
+    // Search for movies by minimum rating
+    public void searchMoviesByRating(double minRating) {
+        System.out.println("Movies with rating >= " + minRating);
+        boolean found = false;
+        for (Movie movie : movies) {
+            if (movie.getRating() >= minRating) {
+                System.out.println(movie.getTitle() + " (" + movie.getDuration() + " mins, Rating: " + movie.getRating() + ")");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No movies found with rating >= " + minRating);
+        }
+    }
+
+    // Search for movies by title keyword
+    public void searchMoviesByTitle(String keyword) {
+        System.out.println("Movies matching: " + keyword);
+        boolean found = false;
+        for (Movie movie : movies) {
+            if (movie.getTitle().toLowerCase().contains(keyword.toLowerCase())) {
+                System.out.println(movie.getTitle() + " (" + movie.getDuration() + " mins, Rating: " + movie.getRating() + ")");
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No movies found with title containing: " + keyword);
+        }
+    }
+
     // List all movies
     public void listMovies() {
         if (movies.isEmpty()) {

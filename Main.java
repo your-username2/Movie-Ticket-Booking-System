@@ -72,9 +72,10 @@ public class Main {
         while (true) {
             System.out.println("\n--- User Menu ---");
             System.out.println("1. View Booking History");
-            System.out.println("2. Make a Booking");
-            System.out.println("3. Cancel a Booking");
-            System.out.println("4. Logout");
+            System.out.println("2. Search for Movies");
+            System.out.println("3. Make a Booking");
+            System.out.println("4. Cancel a Booking");
+            System.out.println("5. Logout");
             System.out.print("Choose an option: ");
             int userChoice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -83,7 +84,40 @@ public class Main {
                 case 1:
                     user.viewBookingHistory();
                     break;
+
                 case 2:
+                    // Search for movies
+                    System.out.println("Search Movies By:");
+                    System.out.println("1. Genre");
+                    System.out.println("2. Rating");
+                    System.out.println("3. Title Keyword");
+                    System.out.print("Enter your choice: ");
+                    int searchChoice = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+
+                    switch (searchChoice) {
+                        case 1:
+                            System.out.print("Enter genre to search: ");
+                            String genre = scanner.nextLine();
+                            movieManager.searchMoviesByGenre(genre);
+                            break;
+                        case 2:
+                            System.out.print("Enter minimum rating (0 to 10): ");
+                            double rating = scanner.nextDouble();
+                            scanner.nextLine();
+                            movieManager.searchMoviesByRating(rating);
+                            break;
+                        case 3:
+                            System.out.print("Enter title keyword to search: ");
+                            String keyword = scanner.nextLine();
+                            movieManager.searchMoviesByTitle(keyword);
+                            break;
+                        default:
+                            System.out.println("Invalid choice.");
+                    }
+                    break;
+
+                case 3:
                     // Display available movies
                     movieManager.listMovies();
                     System.out.print("Select the index of the movie you want to book: ");
@@ -152,7 +186,7 @@ public class Main {
                     }
                     break;
 
-                case 3:
+                case 4:
                     System.out.println("Canceling the latest booking...");
                     if (!user.getBookingHistory().isEmpty()) {
                         Booking lastBooking = user.getBookingHistory().get(user.getBookingHistory().size() - 1);
@@ -162,7 +196,7 @@ public class Main {
                     }
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Logging out...");
                     return;
 
