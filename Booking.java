@@ -12,18 +12,18 @@ public class Booking {
     }
 
     public void confirmBooking() {
+        // Step 1: Check if all seats are available before booking
         boolean allSeatsAvailable = true;
 
-        // Check if all seats are available before booking
         for (Seat seat : seats) {
             if (seat.isBooked()) {
                 System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
                 allSeatsAvailable = false;
-                break;
+                break; // Stop checking further if one seat is booked
             }
         }
 
-        // Reserve seats only if all are available
+        // Step 2: Reserve seats only if all are available
         if (allSeatsAvailable) {
             for (Seat seat : seats) {
                 seat.reserve();
