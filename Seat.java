@@ -4,7 +4,7 @@ public class Seat {
 
     public Seat(int seatNumber) {
         this.seatNumber = seatNumber;
-        this.isBooked = false; // Default: Not booked
+        this.isBooked = false; // Seats start off as available
     }
 
     public int getSeatNumber() {
@@ -29,7 +29,7 @@ public class Seat {
             isBooked = false;
             System.out.println("Seat " + seatNumber + " released.");
         } else {
-            System.out.println("Seat " + seatNumber + " is not booked.");
+            System.out.println("Seat " + seatNumber + " is already available.");
         }
     }
 }

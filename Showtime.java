@@ -4,19 +4,20 @@ import java.util.List;
 public class Showtime {
     private Movie movie;
     private String time;
-    private List<Seat> seats; // Updated to use Seat objects
+    private List<Seat> seats; // Change from int to List<Seat>
 
     public Showtime(Movie movie, String time, int totalSeats) {
         this.movie = movie;
         this.time = time;
         this.seats = new ArrayList<>();
 
-        // Initialize all seats as "Available"
+        // Initialize the seats
         for (int i = 1; i <= totalSeats; i++) {
-            seats.add(new Seat(i));
+            seats.add(new Seat(i)); // Create a seat with seat number i
         }
     }
 
+    // Getter methods
     public Movie getMovie() {
         return movie;
     }
@@ -35,16 +36,22 @@ public class Showtime {
         return availableSeats;
     }
 
-    public void showDetails() {
-        System.out.println("Movie: " + movie.getTitle() + ", Showtime: " + time);
-        System.out.println("Available Seats: " + getAvailableSeats().size());
+    // Setter methods to update showtime details
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public void bookSeat(int seatNumber) {
-        if (seatNumber >= 1 && seatNumber <= seats.size()) {
-            seats.get(seatNumber - 1).reserve();
-        } else {
-            System.out.println("Invalid seat number.");
+    public void setAvailableSeats(int totalSeats) {
+        this.seats = new ArrayList<>();
+        for (int i = 1; i <= totalSeats; i++) {
+            seats.add(new Seat(i));
         }
+    }
+
+    // New method to display showtime details
+    public void showDetails() {
+        System.out.println("Movie: " + movie.getTitle());
+        System.out.println("Showtime: " + time);
+        System.out.println("Available Seats: " + getAvailableSeats().size());
     }
 }
