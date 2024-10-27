@@ -72,9 +72,35 @@ public class Main {
 
                         Booking booking = new Booking(currentUser, showtime1, seatsToBook);
 
-                        // Step 4: Create a Payment and confirm the booking
-                        Payment payment = new CreditCardPayment(20.00, "1234-5678-9012-3456", currentUser.getUsername());
-                        booking.confirmBooking(payment); // Confirm booking with payment
+                        // Step 4: Let the user choose a payment method
+                        System.out.println("Choose Payment Method:");
+                        System.out.println("1. Credit Card");
+                        System.out.println("2. PayPal");
+                        System.out.println("3. Wallet");
+                        int paymentChoice = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+
+                        Payment payment;
+                        switch (paymentChoice) {
+                            case 1:
+                                payment = new CreditCardPayment(20.00, "1234-5678-9012-3456", currentUser.getUsername());
+                                break;
+                            case 2:
+                                System.out.print("Enter PayPal email: ");
+                                String email = scanner.nextLine();
+                                payment = new PayPalPayment(20.00, email);
+                                break;
+                            case 3:
+                                System.out.print("Enter Wallet ID: ");
+                                String walletID = scanner.nextLine();
+                                payment = new WalletPayment(20.00, walletID);
+                                break;
+                            default:
+                                System.out.println("Invalid choice, defaulting to Credit Card.");
+                                payment = new CreditCardPayment(20.00, "1234-5678-9012-3456", currentUser.getUsername());
+                        }
+
+                        booking.confirmBooking(payment);
                     } else {
                         System.out.println("Please login to make a booking.");
                     }
