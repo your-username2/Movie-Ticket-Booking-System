@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         // Step 1: Create a Movie instance
@@ -10,18 +13,33 @@ public class Main {
         movie1.getDetails();
         showtime1.showDetails();
 
-        // Step 3: Book some seats
-        showtime1.bookSeat(1); // Book seat 1
-        showtime1.bookSeat(2); // Book seat 2
+        // Step 3: Book seats using the Booking system
+        List<Seat> seatsToBook = new ArrayList<>();
+        seatsToBook.add(showtime1.getAvailableSeats().get(0)); // Seat 1
+        seatsToBook.add(showtime1.getAvailableSeats().get(1)); // Seat 2
 
-        // Step 4: Show available seats after booking
+        Booking booking1 = new Booking("JohnDoe", showtime1, seatsToBook);
+        booking1.confirmBooking(); // Should confirm booking
+
+        // Check available seats after booking
         System.out.println("Available Seats After Booking:");
         for (Seat seat : showtime1.getAvailableSeats()) {
             System.out.println("Seat " + seat.getSeatNumber() + " (Available)");
         }
 
-        // Step 5: Try releasing a seat and recheck
-        showtime1.bookSeat(1); // Try booking seat 1 again (should give a message it's already booked)
-        showtime1.getAvailableSeats().get(0).release(); // Release seat 1
+        // Step 4: Attempt another booking, including a seat already booked
+        List<Seat> seatsToBook2 = new ArrayList<>();
+        seatsToBook2.add(showtime1.getAvailableSeats().get(0)); // Seat 1 - Already booked
+        seatsToBook2.add(showtime1.getAvailableSeats().get(2)); // Seat 3
+
+        Booking booking2 = new Booking("JaneDoe", showtime1, seatsToBook2);
+        booking2.confirmBooking(); // Should fail because seat 1 is already booked
+
+        // Cancel the first booking and check seats again
+        booking1.cancelBooking();
+        System.out.println("Available Seats After Cancelling Booking:");
+        for (Seat seat : showtime1.getAvailableSeats()) {
+            System.out.println("Seat " + seat.getSeatNumber() + " (Available)");
+        }
     }
 }
