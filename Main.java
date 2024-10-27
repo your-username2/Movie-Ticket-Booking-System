@@ -32,8 +32,20 @@ public class Main {
         seatsToBook2.add(showtime1.getAvailableSeats().get(0)); // Seat 1 - Should be unavailable
         seatsToBook2.add(showtime1.getAvailableSeats().get(2)); // Seat 3
 
+        // Debug: Print seat status before the attempt
+        System.out.println("DEBUG: Status of seats before JaneDoe's booking attempt:");
+        for (Seat seat : seatsToBook2) {
+            System.out.println("Seat " + seat.getSeatNumber() + " - Booked: " + seat.isBooked());
+        }
+
         Booking booking2 = new Booking("JaneDoe", showtime1, seatsToBook2);
         booking2.confirmBooking(); // Should fail because seat 1 is already booked
+
+        // Debug: Print seat status after the attempt
+        System.out.println("DEBUG: Status of seats after JaneDoe's booking attempt:");
+        for (Seat seat : seatsToBook2) {
+            System.out.println("Seat " + seat.getSeatNumber() + " - Booked: " + seat.isBooked());
+        }
 
         // Cancel the first booking and check seats again
         booking1.cancelBooking();

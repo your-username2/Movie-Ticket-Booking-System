@@ -17,7 +17,7 @@ public class Booking {
 
         for (Seat seat : seats) {
             if (seat.isBooked()) {
-                System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
+                System.out.println("DEBUG: Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
                 allSeatsAvailable = false;
                 break; // Stop checking further if one seat is booked
             }
@@ -27,6 +27,7 @@ public class Booking {
         if (allSeatsAvailable) {
             for (Seat seat : seats) {
                 seat.reserve();
+                System.out.println("DEBUG: Seat " + seat.getSeatNumber() + " reserved for user " + userName);
             }
             System.out.println("Booking confirmed for user " + userName);
         } else {
@@ -37,6 +38,7 @@ public class Booking {
     public void cancelBooking() {
         for (Seat seat : seats) {
             seat.release();
+            System.out.println("DEBUG: Seat " + seat.getSeatNumber() + " released for user " + userName);
         }
         System.out.println("Booking cancelled for user " + userName);
     }
