@@ -20,8 +20,7 @@ public class Main {
             System.out.println("\n--- Movie Ticket Booking System ---");
             System.out.println("1. Register as User");
             System.out.println("2. Login");
-            System.out.println("3. Admin: Register a New Admin");
-            System.out.println("4. Exit");
+            System.out.println("3. Exit");
             System.out.print("Choose an option: ");
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
@@ -57,20 +56,6 @@ public class Main {
                     break;
 
                 case 3:
-                    // Register Admin (must be logged in as Admin)
-                    if (currentUser != null && currentUser.getRole().equalsIgnoreCase("Admin")) {
-                        System.out.print("Enter new Admin username: ");
-                        String newAdminUsername = scanner.nextLine();
-                        System.out.print("Enter new Admin password: ");
-                        String newAdminPassword = scanner.nextLine();
-
-                        userManager.addAdmin(currentUser, newAdminUsername, newAdminPassword);
-                    } else {
-                        System.out.println("Only logged-in Admins can create new Admin accounts.");
-                    }
-                    break;
-
-                case 4:
                     // Exit
                     System.out.println("Thank you for using the Movie Ticket Booking System. Goodbye!");
                     scanner.close();
