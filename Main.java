@@ -99,16 +99,47 @@ public class Main {
                         scanner.nextLine();
                         Showtime selectedShowtime = showtimeManager.getShowtime(showtimeIndex);
                         if (selectedShowtime != null) {
-                            // Select seats to book
-                            List<Seat> seatsToBook = new ArrayList<>();
+                            // Display available seats for the selected showtime
                             List<Seat> availableSeats = selectedShowtime.getAvailableSeats();
                             if (!availableSeats.isEmpty()) {
-                                seatsToBook.add(availableSeats.get(0)); // Booking the first available seat for simplicity
-                                Booking booking = new Booking(user, selectedShowtime, seatsToBook);
-                                Payment payment = selectPaymentMethod(scanner, user);
+                                System.out.println("Available Seats:");
+                                for (Seat seat : availableSeats) {
+                                    System.out.println(seat); // Uses overridden toString method
+                                }
 
-                                if (payment != null) {
-                                    booking.confirmBooking(payment);
+                                // Ask user for seat selection
+                                System.out.print("Enter the seat numbers you want to book (comma-separated, e.g., 1,2): ");
+                                String seatInput = scanner.nextLine();
+                                String[] seatNumbers = seatInput.split(",");
+
+                                // Prepare the list of seats to book
+                                List<Seat> seatsToBook = new ArrayList<>();
+                                for (String seatNumber : seatNumbers) {
+                                    try {
+                                        int seatNum = Integer.parseInt(seatNumber.trim());
+                                        Seat seat = availableSeats.stream()
+                                                .filter(s -> s.getSeatNumber() == seatNum && !s.isBooked())
+                                                .findFirst()
+                                                .orElse(null);
+                                        if (seat != null) {
+                                            seatsToBook.add(seat);
+                                        } else {
+                                            System.out.println("Seat " + seatNum + " is not available. Skipping this seat.");
+                                        }
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("Invalid seat number: " + seatNumber + ". Skipping this seat.");
+                                    }
+                                }
+
+                                if (!seatsToBook.isEmpty()) {
+                                    Booking booking = new Booking(user, selectedShowtime, seatsToBook);
+                                    Payment payment = selectPaymentMethod(scanner, user);
+
+                                    if (payment != null) {
+                                        booking.confirmBooking(payment);
+                                    }
+                                } else {
+                                    System.out.println("No valid seats selected. Booking canceled.");
                                 }
                             } else {
                                 System.out.println("No available seats for the selected showtime.");
