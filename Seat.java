@@ -32,4 +32,10 @@ public class Seat {
             System.out.println("Seat " + seatNumber + " is already available.");
         }
     }
+
+    // Override toString method for better display
+    @Override
+    public String toString() {
+        return "Seat " + seatNumber + (isBooked ? " (Booked)" : " (Available)");
+    }
 }
