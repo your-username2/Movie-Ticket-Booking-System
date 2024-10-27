@@ -9,6 +9,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         User currentUser = null;
 
+        // Add a default Admin account (username: "admin", password: "admin123")
+        userManager.registerUser("admin", "admin123", "Admin");
+
         while (true) {
             // Show the main menu
             System.out.println("\n--- Movie Ticket Booking System ---");
@@ -90,40 +93,27 @@ public class Main {
 
             switch (userChoice) {
                 case 1:
-                    // View Booking History
                     user.viewBookingHistory();
                     break;
-
                 case 2:
-                    // Make a Booking
-                    // Step 1: Create a Movie instance (example movie)
                     Movie movie1 = new Movie("Inception", "Sci-Fi", 148, 8.8);
+                    Showtime showtime1 = new Showtime(movie1, "18:00", 10);
 
-                    // Step 2: Create a Showtime for that movie
-                    Showtime showtime1 = new Showtime(movie1, "18:00", 10); // 10 seats available
-
-                    // Show details before booking
                     movie1.getDetails();
                     showtime1.showDetails();
 
-                    // Step 3: Book seats using the Booking system
                     List<Seat> seatsToBook = new ArrayList<>();
                     seatsToBook.add(showtime1.getAvailableSeats().get(0)); // Seat 1
                     seatsToBook.add(showtime1.getAvailableSeats().get(1)); // Seat 2
 
                     Booking booking = new Booking(user, showtime1, seatsToBook);
-
-                    // Step 4: Let the user choose a payment method
                     Payment payment = selectPaymentMethod(scanner, user);
 
-                    // Proceed with the booking if a valid payment method was chosen
                     if (payment != null) {
                         booking.confirmBooking(payment);
                     }
                     break;
-
                 case 3:
-                    // Cancel a Booking
                     System.out.println("Canceling the latest booking...");
                     if (!user.getBookingHistory().isEmpty()) {
                         Booking lastBooking = user.getBookingHistory().get(user.getBookingHistory().size() - 1);
@@ -132,12 +122,9 @@ public class Main {
                         System.out.println("No bookings to cancel.");
                     }
                     break;
-
                 case 4:
-                    // Logout
                     System.out.println("Logging out...");
                     return;
-
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
@@ -156,19 +143,15 @@ public class Main {
 
             switch (adminChoice) {
                 case 1:
-                    // Register New Admin
                     System.out.print("Enter new Admin username: ");
                     String newAdminUsername = scanner.nextLine();
                     System.out.print("Enter new Admin password: ");
                     String newAdminPassword = scanner.nextLine();
                     userManager.addAdmin(admin, newAdminUsername, newAdminPassword);
                     break;
-
                 case 2:
-                    // Logout
                     System.out.println("Logging out...");
                     return;
-
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
