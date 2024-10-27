@@ -57,4 +57,12 @@ public class ShowtimeManager {
         }
         return null;
     }
+
+    public void listShowtimesForMovie(Movie movie) {
+        for (Showtime showtime : showtimes) {
+            if (showtime.getMovie().equals(movie)) {
+                System.out.println(showtime.getTime());
+            }
+        }
+    }
 }

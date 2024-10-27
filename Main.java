@@ -4,8 +4,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Initialize User Manager and Scanner
+        // Initialize User Manager, Movie Manager, Showtime Manager, and Scanner
         UserManager userManager = new UserManager();
+        MovieManager movieManager = new MovieManager();
+        ShowtimeManager showtimeManager = new ShowtimeManager();
         Scanner scanner = new Scanner(System.in);
         User currentUser = null;
 
@@ -47,9 +49,9 @@ public class Main {
                     // Differentiate user experience
                     if (currentUser != null) {
                         if (currentUser.getRole().equalsIgnoreCase("Admin")) {
-                            adminMenu(scanner, userManager, currentUser);
+                            adminMenu(scanner, userManager, currentUser, movieManager, showtimeManager);
                         } else {
-                            userMenu(scanner, currentUser);
+                            userMenu(scanner, currentUser, movieManager, showtimeManager);
                         }
                     }
                     break;
@@ -81,7 +83,7 @@ public class Main {
     }
 
     // User-specific menu for booking actions
-    private static void userMenu(Scanner scanner, User user) {
+    private static void userMenu(Scanner scanner, User user, MovieManager movieManager, ShowtimeManager showtimeManager) {
         while (true) {
             System.out.println("\n--- User Menu ---");
             System.out.println("1. View Booking History");
@@ -97,23 +99,43 @@ public class Main {
                     user.viewBookingHistory();
                     break;
                 case 2:
-                    Movie movie1 = new Movie("Inception", "Sci-Fi", 148, 8.8);
-                    Showtime showtime1 = new Showtime(movie1, "18:00", 10);
+                    // Display available movies
+                    movieManager.listMovies();
+                    System.out.print("Select the index of the movie you want to book: ");
+                    int movieIndex = scanner.nextInt();
+                    scanner.nextLine();
+                    Movie selectedMovie = movieManager.getMovie(movieIndex);
+                    if (selectedMovie != null) {
+                        // Display showtimes for the selected movie
+                        System.out.println("Available showtimes for " + selectedMovie.getTitle() + ":");
+                        showtimeManager.listShowtimesForMovie(selectedMovie);
+                        System.out.print("Select the index of the showtime you want to book: ");
+                        int showtimeIndex = scanner.nextInt();
+                        scanner.nextLine();
+                        Showtime selectedShowtime = showtimeManager.getShowtime(showtimeIndex);
+                        if (selectedShowtime != null) {
+                            // Select seats to book
+                            List<Seat> seatsToBook = new ArrayList<>();
+                            List<Seat> availableSeats = selectedShowtime.getAvailableSeats();
+                            if (!availableSeats.isEmpty()) {
+                                seatsToBook.add(availableSeats.get(0)); // Booking the first available seat for simplicity
+                                Booking booking = new Booking(user, selectedShowtime, seatsToBook);
+                                Payment payment = selectPaymentMethod(scanner, user);
 
-                    movie1.getDetails();
-                    showtime1.showDetails();
-
-                    List<Seat> seatsToBook = new ArrayList<>();
-                    seatsToBook.add(showtime1.getAvailableSeats().get(0)); // Seat 1
-                    seatsToBook.add(showtime1.getAvailableSeats().get(1)); // Seat 2
-
-                    Booking booking = new Booking(user, showtime1, seatsToBook);
-                    Payment payment = selectPaymentMethod(scanner, user);
-
-                    if (payment != null) {
-                        booking.confirmBooking(payment);
+                                if (payment != null) {
+                                    booking.confirmBooking(payment);
+                                }
+                            } else {
+                                System.out.println("No available seats for the selected showtime.");
+                            }
+                        } else {
+                            System.out.println("Invalid showtime selection.");
+                        }
+                    } else {
+                        System.out.println("Invalid movie selection.");
                     }
                     break;
+
                 case 3:
                     System.out.println("Canceling the latest booking...");
                     if (!user.getBookingHistory().isEmpty()) {
@@ -123,19 +145,19 @@ public class Main {
                         System.out.println("No bookings to cancel.");
                     }
                     break;
+
                 case 4:
                     System.out.println("Logging out...");
                     return;
+
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
         }
     }
 
-    // Admin-specific menu for managing the system
-    private static void adminMenu(Scanner scanner, UserManager userManager, User admin) {
-        MovieManager movieManager = new MovieManager();
-        ShowtimeManager showtimeManager = new ShowtimeManager();
+    // Admin-specific menu
+    private static void adminMenu(Scanner scanner, UserManager userManager, User admin, MovieManager movieManager, ShowtimeManager showtimeManager) {
         AdminManager adminManager = new AdminManager(movieManager, showtimeManager);
 
         while (true) {
