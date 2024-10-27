@@ -4,7 +4,7 @@ import java.util.List;
 public class Showtime {
     private Movie movie;
     private String time;
-    private List<String> seats; // Simple representation of seat availability
+    private List<Seat> seats; // Updated to use Seat objects
 
     public Showtime(Movie movie, String time, int totalSeats) {
         this.movie = movie;
@@ -13,7 +13,7 @@ public class Showtime {
 
         // Initialize all seats as "Available"
         for (int i = 1; i <= totalSeats; i++) {
-            seats.add("Seat " + i + " (Available)");
+            seats.add(new Seat(i));
         }
     }
 
@@ -25,10 +25,10 @@ public class Showtime {
         return time;
     }
 
-    public List<String> getAvailableSeats() {
-        List<String> availableSeats = new ArrayList<>();
-        for (String seat : seats) {
-            if (seat.contains("Available")) {
+    public List<Seat> getAvailableSeats() {
+        List<Seat> availableSeats = new ArrayList<>();
+        for (Seat seat : seats) {
+            if (!seat.isBooked()) {
                 availableSeats.add(seat);
             }
         }
@@ -38,5 +38,13 @@ public class Showtime {
     public void showDetails() {
         System.out.println("Movie: " + movie.getTitle() + ", Showtime: " + time);
         System.out.println("Available Seats: " + getAvailableSeats().size());
+    }
+
+    public void bookSeat(int seatNumber) {
+        if (seatNumber >= 1 && seatNumber <= seats.size()) {
+            seats.get(seatNumber - 1).reserve();
+        } else {
+            System.out.println("Invalid seat number.");
+        }
     }
 }
