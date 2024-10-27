@@ -1,35 +1,39 @@
 import java.util.List;
 
 public class Booking {
-    private String userName;
+    private User user; // Added reference to User
     private Showtime showtime;
     private List<Seat> seats;
 
-    public Booking(String userName, Showtime showtime, List<Seat> seats) {
-        this.userName = userName;
+    public Booking(User user, Showtime showtime, List<Seat> seats) {
+        this.user = user;
         this.showtime = showtime;
         this.seats = seats;
     }
 
+    public Showtime getShowtime() {
+        return showtime;
+    }
+
     public void confirmBooking() {
-        // Step 1: Check if all seats are available before booking
         boolean allSeatsAvailable = true;
 
+        // Check if all seats are available before booking
         for (Seat seat : seats) {
             if (seat.isBooked()) {
-                System.out.println("DEBUG: Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
+                System.out.println("Booking failed. Seat " + seat.getSeatNumber() + " is already booked.");
                 allSeatsAvailable = false;
-                break; // Stop checking further if one seat is booked
+                break;
             }
         }
 
-        // Step 2: Reserve seats only if all are available
+        // Reserve seats only if all are available
         if (allSeatsAvailable) {
             for (Seat seat : seats) {
                 seat.reserve();
-                System.out.println("DEBUG: Seat " + seat.getSeatNumber() + " reserved for user " + userName);
             }
-            System.out.println("Booking confirmed for user " + userName);
+            System.out.println("Booking confirmed for user " + user.getUsername());
+            user.addBooking(this); // Add booking to user's history
         } else {
             System.out.println("Booking failed. Please select different seats.");
         }
@@ -38,8 +42,7 @@ public class Booking {
     public void cancelBooking() {
         for (Seat seat : seats) {
             seat.release();
-            System.out.println("DEBUG: Seat " + seat.getSeatNumber() + " released for user " + userName);
         }
-        System.out.println("Booking cancelled for user " + userName);
+        System.out.println("Booking cancelled for user " + user.getUsername());
     }
 }

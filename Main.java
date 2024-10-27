@@ -9,37 +9,32 @@ public class Main {
         // Step 2: Create a Showtime for that movie
         Showtime showtime1 = new Showtime(movie1, "18:00", 10); // 10 seats available
 
+        // Step 3: Create a User
+        User user1 = new User("JohnDoe", "password123");
+
         // Show details before booking
         movie1.getDetails();
         showtime1.showDetails();
 
-        // Step 3: Book seats using the Booking system
+        // Step 4: Book seats using the Booking system
         List<Seat> seatsToBook = new ArrayList<>();
         seatsToBook.add(showtime1.getAvailableSeats().get(0)); // Seat 1
         seatsToBook.add(showtime1.getAvailableSeats().get(1)); // Seat 2
 
-        Booking booking1 = new Booking("JohnDoe", showtime1, seatsToBook);
+        Booking booking1 = new Booking(user1, showtime1, seatsToBook);
         booking1.confirmBooking(); // Should confirm booking
 
-        // Check available seats after booking
-        System.out.println("Available Seats After Booking:");
-        for (Seat seat : showtime1.getAvailableSeats()) {
-            System.out.println("Seat " + seat.getSeatNumber() + " (Available)");
-        }
+        // Step 5: Check the User's booking history
+        user1.viewBookingHistory();
 
-        // Step 4: Attempt to double-book the same seats
-        List<Seat> seatsToBook2 = new ArrayList<>();
-        seatsToBook2.add(seatsToBook.get(0)); // Seat 1 - already booked
-        seatsToBook2.add(seatsToBook.get(1)); // Seat 2 - already booked
-
-        Booking booking2 = new Booking("JaneDoe", showtime1, seatsToBook2);
-        booking2.confirmBooking(); // Should fail because Seat 1 and 2 are already booked
-
-        // Step 5: Cancel the first booking and check seats again
+        // Step 6: Cancel the booking and check seats again
         booking1.cancelBooking();
         System.out.println("Available Seats After Cancelling Booking:");
         for (Seat seat : showtime1.getAvailableSeats()) {
             System.out.println("Seat " + seat.getSeatNumber() + " (Available)");
         }
+
+        // Step 7: Check the User's booking history after cancellation
+        user1.viewBookingHistory();
     }
 }
