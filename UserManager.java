@@ -8,8 +8,7 @@ public class UserManager {
         this.users = new ArrayList<>();
     }
 
-    // Register a new user
-    public boolean registerUser(String username, String password) {
+    public boolean registerUser(String username, String password, String role) {
         // Check if username already exists
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -17,18 +16,24 @@ public class UserManager {
                 return false;
             }
         }
-        // If not, create and add new user
-        User newUser = new User(username, password);
+
+        // Only allow existing Admins to create new Admin accounts
+        if (role.equalsIgnoreCase("Admin")) {
+            System.out.println("Only existing Admins can create new Admin accounts.");
+            return false;
+        }
+
+        // Create and add new user
+        User newUser = new User(username, password, role);
         users.add(newUser);
-        System.out.println("User registered successfully: " + username);
+        System.out.println("User registered successfully: " + username + " (" + role + ")");
         return true;
     }
 
-    // Login an existing user
     public User loginUser(String username, String password) {
         for (User user : users) {
             if (user.getUsername().equals(username) && user.authenticate(password)) {
-                System.out.println("Login successful! Welcome " + username);
+                System.out.println("Login successful! Welcome " + username + " (" + user.getRole() + ")");
                 return user;
             }
         }
@@ -36,11 +41,13 @@ public class UserManager {
         return null;
     }
 
-    // Helper method to print all users (for testing)
-    public void listAllUsers() {
-        System.out.println("Registered Users:");
-        for (User user : users) {
-            System.out.println(user.getUsername());
+    // Method to add Admins by existing Admins (simulate privilege)
+    public boolean addAdmin(User admin, String username, String password) {
+        if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
+            return registerUser(username, password, "Admin");
+        } else {
+            System.out.println("Only Admins can add new Admin accounts.");
+            return false;
         }
     }
 }

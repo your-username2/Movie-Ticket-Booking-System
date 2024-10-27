@@ -4,11 +4,13 @@ import java.util.List;
 public class User {
     private String username;
     private String password;
+    private String role; // New role attribute (e.g., "Admin" or "User")
     private List<Booking> bookingHistory;
 
-    public User(String username, String password) {
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
+        this.role = role;
         this.bookingHistory = new ArrayList<>();
     }
 
@@ -16,7 +18,10 @@ public class User {
         return username;
     }
 
-    // Method to verify if the given password matches the user's password
+    public String getRole() {
+        return role;
+    }
+
     public boolean authenticate(String password) {
         return this.password.equals(password);
     }
@@ -25,7 +30,6 @@ public class User {
         bookingHistory.add(booking);
     }
 
-    // New method to get the user's booking history
     public List<Booking> getBookingHistory() {
         return bookingHistory;
     }
