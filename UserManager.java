@@ -21,15 +21,22 @@ public class UserManager {
             }
         }
 
-        if (role.equalsIgnoreCase("Admin")) {
-            System.out.println("Only existing Admins can create new Admin accounts.");
-            return false;
-        }
-
+        // Create and add new user
         User newUser = new User(username, password, role);
         users.add(newUser);
         System.out.println("User registered successfully: " + username + " (" + role + ")");
         return true;
+    }
+
+    // Ensure only an Admin can add another Admin using this method
+    public boolean addAdmin(User admin, String username, String password) {
+        // Check if the current user is an Admin
+        if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
+            return registerUser(username, password, "Admin");
+        } else {
+            System.out.println("Only existing Admins can create new Admin accounts.");
+            return false;
+        }
     }
 
     public User loginUser(String username, String password) {
@@ -41,14 +48,5 @@ public class UserManager {
         }
         System.out.println("Invalid username or password. Please try again.");
         return null;
-    }
-
-    public boolean addAdmin(User admin, String username, String password) {
-        if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
-            return registerUser(username, password, "Admin");
-        } else {
-            System.out.println("Only Admins can add new Admin accounts.");
-            return false;
-        }
     }
 }
