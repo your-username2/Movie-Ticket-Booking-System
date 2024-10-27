@@ -25,6 +25,11 @@ public class User {
         bookingHistory.add(booking);
     }
 
+    // New method to get the user's booking history
+    public List<Booking> getBookingHistory() {
+        return bookingHistory;
+    }
+
     public void viewBookingHistory() {
         if (bookingHistory.isEmpty()) {
             System.out.println(username + " has no booking history.");
