@@ -8,8 +8,12 @@ public class UserManager {
         this.users = new ArrayList<>();
     }
 
+    // New method to directly add users (e.g., default admin)
+    public void addUserDirectly(User user) {
+        users.add(user);
+    }
+
     public boolean registerUser(String username, String password, String role) {
-        // Check if username already exists
         for (User user : users) {
             if (user.getUsername().equals(username)) {
                 System.out.println("Username already taken. Please choose a different username.");
@@ -17,13 +21,11 @@ public class UserManager {
             }
         }
 
-        // Only allow existing Admins to create new Admin accounts
         if (role.equalsIgnoreCase("Admin")) {
             System.out.println("Only existing Admins can create new Admin accounts.");
             return false;
         }
 
-        // Create and add new user
         User newUser = new User(username, password, role);
         users.add(newUser);
         System.out.println("User registered successfully: " + username + " (" + role + ")");
@@ -41,7 +43,6 @@ public class UserManager {
         return null;
     }
 
-    // Method to add Admins by existing Admins (simulate privilege)
     public boolean addAdmin(User admin, String username, String password) {
         if (admin != null && admin.getRole().equalsIgnoreCase("Admin")) {
             return registerUser(username, password, "Admin");

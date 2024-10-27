@@ -9,8 +9,9 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         User currentUser = null;
 
-        // Add a default Admin account (username: "admin", password: "admin123")
-        userManager.registerUser("admin", "admin123", "Admin");
+        // Add a default Admin account directly
+        User defaultAdmin = new User("admin", "admin123", "Admin");
+        userManager.addUserDirectly(defaultAdmin);
 
         while (true) {
             // Show the main menu
