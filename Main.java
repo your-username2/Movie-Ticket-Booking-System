@@ -265,7 +265,18 @@ public class Main {
         Payment payment;
         switch (paymentChoice) {
             case 1:
-                payment = new CreditCardPayment(totalAmount, "1234-5678-9012-3456", user.getUsername());
+                // Collect credit card details from the user
+                System.out.print("Enter Credit Card Number (e.g., 1234-5678-9012-3456): ");
+                String cardNumber = scanner.nextLine();
+                System.out.print("Enter Card Holder Name: ");
+                String cardHolderName = scanner.nextLine();
+                System.out.print("Enter Expiry Date (MM/YY): ");
+                String expiryDate = scanner.nextLine();
+                System.out.print("Enter CVV: ");
+                String cvv = scanner.nextLine();
+
+                // Create a new CreditCardPayment object using the user-provided details
+                payment = new CreditCardPayment(totalAmount, cardNumber, cardHolderName, expiryDate, cvv);
                 break;
             case 2:
                 System.out.print("Enter PayPal email: ");

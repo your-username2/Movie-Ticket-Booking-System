@@ -1,18 +1,25 @@
 public class CreditCardPayment extends Payment {
     private String cardNumber;
     private String cardHolderName;
+    private String expiryDate;
+    private String cvv;
 
-    public CreditCardPayment(double amount, String cardNumber, String cardHolderName) {
+    public CreditCardPayment(double amount, String cardNumber, String cardHolderName, String expiryDate, String cvv) {
         super(amount);
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
+        this.expiryDate = expiryDate;
+        this.cvv = cvv;
     }
 
     @Override
     public boolean processPayment() {
-        // Simulate payment processing
-        System.out.println("Processing credit card payment for " + amount + "...");
-        // Assume payment is always successful for now
+        // Mock processing of the credit card
+        System.out.println("Processing credit card payment for $" + getAmount() + "...");
+        System.out.println("Card Number: " + cardNumber);
+        System.out.println("Card Holder: " + cardHolderName);
+        // Simulate a successful payment
+        System.out.println("Payment Successful!");
         return true;
     }
 
