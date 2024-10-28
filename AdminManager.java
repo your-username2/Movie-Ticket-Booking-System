@@ -12,6 +12,70 @@ public class AdminManager {
         this.showtimeManager = showtimeManager;
     }
 
+    // Display total revenue with options
+    public void displayRevenueReports() {
+        System.out.println("\n--- Revenue Reports ---");
+        System.out.println("1. Total Revenue");
+        System.out.println("2. Revenue by Movie");
+        System.out.println("3. Revenue by Showtime");
+        System.out.println("4. Back to Admin Menu");
+        System.out.print("Choose an option: ");
+
+        Scanner scanner = new Scanner(System.in);
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch (choice) {
+            case 1:
+                showTotalRevenue();
+                break;
+            case 2:
+                showRevenueByMovie();
+                break;
+            case 3:
+                showRevenueByShowtime();
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+        }
+    }
+
+    // Calculate and display total revenue
+    private void showTotalRevenue() {
+        double totalRevenue = 0.0;
+        for (Showtime showtime : showtimeManager.getShowtimes()) {
+            totalRevenue += showtime.getTotalRevenue();
+        }
+        System.out.println("Total Revenue: $" + totalRevenue);
+    }
+
+    // Calculate revenue by movie
+    private void showRevenueByMovie() {
+        Map<Movie, Double> movieRevenueMap = new HashMap<>();
+
+        for (Showtime showtime : showtimeManager.getShowtimes()) {
+            Movie movie = showtime.getMovie();
+            double revenue = movieRevenueMap.getOrDefault(movie, 0.0);
+            movieRevenueMap.put(movie, revenue + showtime.getTotalRevenue());
+        }
+
+        System.out.println("Revenue by Movie:");
+        for (Map.Entry<Movie, Double> entry : movieRevenueMap.entrySet()) {
+            System.out.println(entry.getKey().getTitle() + ": $" + entry.getValue());
+        }
+    }
+
+    // Calculate revenue by showtime
+    private void showRevenueByShowtime() {
+        System.out.println("Revenue by Showtime:");
+        for (Showtime showtime : showtimeManager.getShowtimes()) {
+            System.out.println("Movie: " + showtime.getMovie().getTitle() + " | Showtime: " + showtime.getTime() +
+                    " | Revenue: $" + showtime.getTotalRevenue());
+        }
+    }
+
     // Method to manage movies
     public void manageMovies(Scanner scanner) {
         while (true) {

@@ -219,7 +219,7 @@ public class Main {
             System.out.println("1. Register a New Admin");
             System.out.println("2. Manage Movies");
             System.out.println("3. Manage Showtimes");
-            System.out.println("4. View Analytics Dashboard");
+            System.out.println("4. View Revenue Reports");
             System.out.println("5. Logout");
             System.out.print("Choose an option: ");
             int adminChoice = scanner.nextInt();
@@ -241,7 +241,7 @@ public class Main {
                     adminManager.manageShowtimes(scanner);
                     break;
                 case 4:
-                    adminManager.displayAnalytics(userManager);
+                    adminManager.displayRevenueReports(); // New revenue reports feature
                     break;
                 case 5:
                     System.out.println("Logging out...");
