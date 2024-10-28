@@ -102,8 +102,10 @@ public class AdminManager {
                         String time = scanner.nextLine();
                         System.out.print("Enter number of seats: ");
                         int seats = scanner.nextInt();
+                        System.out.print("Enter ticket price: ");
+                        double price = scanner.nextDouble(); // New input for ticket price
                         scanner.nextLine();
-                        showtimeManager.addShowtime(movie, time, seats);
+                        showtimeManager.addShowtime(movie, time, seats, price); // Pass the price to addShowtime
                     } else {
                         System.out.println("Invalid movie index.");
                     }
@@ -118,8 +120,10 @@ public class AdminManager {
                     String time = scanner.nextLine();
                     System.out.print("Enter new number of seats: ");
                     int seats = scanner.nextInt();
+                    System.out.print("Enter new ticket price: ");
+                    double price = scanner.nextDouble(); // New input for ticket price
                     scanner.nextLine();
-                    showtimeManager.updateShowtime(index, time, seats);
+                    showtimeManager.updateShowtime(index, time, seats, price); // Pass the price to updateShowtime
                     break;
 
                 case 3:

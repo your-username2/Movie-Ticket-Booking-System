@@ -9,27 +9,28 @@ public class ShowtimeManager {
     }
 
     // Add a new showtime for a specific movie
-    public void addShowtime(Movie movie, String time, int seats) {
-        Showtime newShowtime = new Showtime(movie, time, seats);
+    public void addShowtime(Movie movie, String time, int seats, double price) {
+        Showtime newShowtime = new Showtime(movie, time, seats, price);
         showtimes.add(newShowtime);
-        System.out.println("Showtime added successfully for " + movie.getTitle() + " at " + time);
+        System.out.println("Showtime added successfully for " + movie.getTitle() + " at " + time + " with price $" + price);
+    }
+
+    // Method to update showtime details
+    public void updateShowtime(int index, String time, int seats, double price) {
+        if (index >= 0 && index < showtimes.size()) {
+            Showtime showtime = showtimes.get(index);
+            showtime.setTime(time);
+            showtime.setAvailableSeats(seats);
+            showtime.setPrice(price);
+            System.out.println("Showtime updated successfully.");
+        } else {
+            System.out.println("Invalid showtime index.");
+        }
     }
 
     // Getter method to access all showtimes
     public List<Showtime> getShowtimes() {
         return showtimes;
-    }
-
-    // Update an existing showtime
-    public void updateShowtime(int index, String time, int seats) {
-        if (index >= 0 && index < showtimes.size()) {
-            Showtime showtime = showtimes.get(index);
-            showtime.setTime(time);
-            showtime.setAvailableSeats(seats);
-            System.out.println("Showtime updated successfully.");
-        } else {
-            System.out.println("Invalid showtime index.");
-        }
     }
 
     // Delete a showtime

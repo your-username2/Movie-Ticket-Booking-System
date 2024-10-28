@@ -118,14 +118,13 @@ public class Main {
                     break;
 
                 case 3:
-                    // Display available movies
+                    // User selects a showtime to book
                     movieManager.listMovies();
                     System.out.print("Select the index of the movie you want to book: ");
                     int movieIndex = scanner.nextInt();
                     scanner.nextLine();
                     Movie selectedMovie = movieManager.getMovie(movieIndex);
                     if (selectedMovie != null) {
-                        // Display showtimes for the selected movie
                         System.out.println("Available showtimes for " + selectedMovie.getTitle() + ":");
                         showtimeManager.listShowtimesForMovie(selectedMovie);
                         System.out.print("Select the index of the showtime you want to book: ");
@@ -133,12 +132,12 @@ public class Main {
                         scanner.nextLine();
                         Showtime selectedShowtime = showtimeManager.getShowtime(showtimeIndex);
                         if (selectedShowtime != null) {
-                            // Display available seats for the selected showtime
+                            System.out.println("Ticket price: $" + selectedShowtime.getPrice());
                             List<Seat> availableSeats = selectedShowtime.getAvailableSeats();
                             if (!availableSeats.isEmpty()) {
                                 System.out.println("Available Seats:");
                                 for (Seat seat : availableSeats) {
-                                    System.out.println(seat); // Uses overridden toString method
+                                    System.out.println(seat);
                                 }
 
                                 // Ask user for seat selection
@@ -146,7 +145,6 @@ public class Main {
                                 String seatInput = scanner.nextLine();
                                 String[] seatNumbers = seatInput.split(",");
 
-                                // Prepare the list of seats to book
                                 List<Seat> seatsToBook = new ArrayList<>();
                                 for (String seatNumber : seatNumbers) {
                                     try {
@@ -166,11 +164,14 @@ public class Main {
                                 }
 
                                 if (!seatsToBook.isEmpty()) {
-                                    Booking booking = new Booking(user, selectedShowtime, seatsToBook);
-                                    Payment payment = selectPaymentMethod(scanner, user);
+                                    double totalCost = selectedShowtime.getPrice() * seatsToBook.size();
+                                    Payment payment = selectPaymentMethod(scanner, user); // Use flexible payment selection
 
-                                    if (payment != null) {
+                                    if (payment != null) { // Proceed only if payment is successfully chosen
+                                        Booking booking = new Booking(user, selectedShowtime, seatsToBook);
                                         booking.confirmBooking(payment);
+                                    } else {
+                                        System.out.println("Payment canceled. Booking could not be completed.");
                                     }
                                 } else {
                                     System.out.println("No valid seats selected. Booking canceled.");
