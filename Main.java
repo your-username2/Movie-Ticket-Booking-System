@@ -165,7 +165,10 @@ public class Main {
 
                                 if (!seatsToBook.isEmpty()) {
                                     double totalCost = selectedShowtime.getPrice() * seatsToBook.size();
-                                    Payment payment = selectPaymentMethod(scanner, user); // Use flexible payment selection
+                                    System.out.println("Total cost: $" + totalCost); // Display the total cost to the user
+
+                                    // Use the total cost in the payment method selection
+                                    Payment payment = selectPaymentMethod(scanner, user, totalCost);
 
                                     if (payment != null) { // Proceed only if payment is successfully chosen
                                         Booking booking = new Booking(user, selectedShowtime, seatsToBook);
@@ -250,7 +253,7 @@ public class Main {
     }
 
     // Modular method for selecting a payment method
-    private static Payment selectPaymentMethod(Scanner scanner, User user) {
+    private static Payment selectPaymentMethod(Scanner scanner, User user, double totalAmount) {
         System.out.println("\nChoose Payment Method:");
         System.out.println("1. Credit Card");
         System.out.println("2. PayPal");
@@ -262,17 +265,17 @@ public class Main {
         Payment payment;
         switch (paymentChoice) {
             case 1:
-                payment = new CreditCardPayment(20.00, "1234-5678-9012-3456", user.getUsername());
+                payment = new CreditCardPayment(totalAmount, "1234-5678-9012-3456", user.getUsername());
                 break;
             case 2:
                 System.out.print("Enter PayPal email: ");
                 String email = scanner.nextLine();
-                payment = new PayPalPayment(20.00, email);
+                payment = new PayPalPayment(totalAmount, email);
                 break;
             case 3:
                 System.out.print("Enter Wallet ID: ");
                 String walletID = scanner.nextLine();
-                payment = new WalletPayment(20.00, walletID);
+                payment = new WalletPayment(totalAmount, walletID);
                 break;
             default:
                 System.out.println("Invalid choice, payment canceled.");
