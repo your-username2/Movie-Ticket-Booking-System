@@ -14,31 +14,33 @@ public class AdminManager {
 
     // Display total revenue with options
     public void displayRevenueReports() {
-        System.out.println("\n--- Revenue Reports ---");
-        System.out.println("1. Total Revenue");
-        System.out.println("2. Revenue by Movie");
-        System.out.println("3. Revenue by Showtime");
-        System.out.println("4. Back to Admin Menu");
-        System.out.print("Choose an option: ");
-
         Scanner scanner = new Scanner(System.in);
-        int choice = scanner.nextInt();
-        scanner.nextLine();
+        while (true) {
+            System.out.println("\n--- Revenue Reports ---");
+            System.out.println("1. Total Revenue");
+            System.out.println("2. Revenue by Movie");
+            System.out.println("3. Revenue by Showtime");
+            System.out.println("4. Back to Admin Menu");
+            System.out.print("Choose an option: ");
 
-        switch (choice) {
-            case 1:
-                showTotalRevenue();
-                break;
-            case 2:
-                showRevenueByMovie();
-                break;
-            case 3:
-                showRevenueByShowtime();
-                break;
-            case 4:
-                return;
-            default:
-                System.out.println("Invalid choice. Please try again.");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    showTotalRevenue();
+                    break;
+                case 2:
+                    showRevenueByMovie();
+                    break;
+                case 3:
+                    showRevenueByShowtime();
+                    break;
+                case 4:
+                    return; // Exit the revenue reports menu loop and go back to Admin menu
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
         }
     }
 
