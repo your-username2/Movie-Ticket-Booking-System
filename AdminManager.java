@@ -13,8 +13,7 @@ public class AdminManager {
     }
 
     // Display total revenue with options
-    public void displayRevenueReports() {
-        Scanner scanner = new Scanner(System.in);
+    public void displayRevenueReports(Scanner scanner) {
         while (true) {
             System.out.println("\n--- Revenue Reports ---");
             System.out.println("1. Total Revenue");
@@ -22,7 +21,6 @@ public class AdminManager {
             System.out.println("3. Revenue by Showtime");
             System.out.println("4. Back to Admin Menu");
             System.out.print("Choose an option: ");
-
             int choice = scanner.nextInt();
             scanner.nextLine();
 

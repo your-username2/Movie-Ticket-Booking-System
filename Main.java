@@ -241,7 +241,7 @@ public class Main {
                     adminManager.manageShowtimes(scanner);
                     break;
                 case 4:
-                    adminManager.displayRevenueReports(); // New revenue reports feature
+                    adminManager.displayRevenueReports(scanner); // Pass scanner as an argument
                     break;
                 case 5:
                     System.out.println("Logging out...");
